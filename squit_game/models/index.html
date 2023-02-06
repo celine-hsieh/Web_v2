@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Squid Game WebAR | OneStopAR</title>
+	  <meta name="Dadong Hu" content="hudadong1@gmail.com. Web AR Developer">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+<script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PGKDS53');</script>
+<!-- End Google Tag Manager -->
+
+
+
+</head>
+<style>
+  body {
+    margin: 0px;
+    overflow: hidden;
+}
+model-viewer{
+	position: absolute;
+	width: 100%;
+	height:100%;
+    margin: 0;
+		outline: none;
+		--poster-color: #eee;
+		overflow: hidden;
+	}
+
+.progress-bar{
+  position: absolute;
+  bottom: 13%;
+  left: 50%;
+  transform: translate(-50%,10%);
+  text-align: center;
+  color:#4285f4;
+  font-size: 25px;
+  font-family: Lexend;
+
+}
+.progressAmmount{
+  font-size: 15px;
+}
+.progressStyle{
+  margin: auto;
+  width: 30vw;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #4285f4;
+}
+.update-bar{
+  width: 1%;
+  height: 10px;
+  background-color: #2196f380;
+}
+.hidden{
+  display: none;
+}
+
+.shopNowButton{
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translate(-50%,10%);
+  text-align: center;
+  color:#4285f4;
+  font-size: 25px;
+  font-family: Lexend;
+}
+.shopNowButton img{
+  width: 100%;
+
+}
+
+
+
+
+#ar-button {
+  background-image: url(models/ic_view_in_ar_new.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: 12px 50%;
+  background-color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  bottom: 30px;
+  padding: 0px 16px 0px 40px;
+  font-family: Roboto Regular, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  color:#5692f5;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 18px;
+  border: 1px solid #DADCE0;
+}
+
+
+
+
+</style>
+<body>
+
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGKDS53"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
+
+
+
+
+<model-viewer id="demo" poster="models/city_science.png" src="models/newtaipei_xinpu.glb" camera-controls shadow-intensity="1" camera-orbit="-46.37deg 86.68deg 1m" camera-target="0m 0.2m 0m" min-camera-orbit="auto auto 0.5m" ar  ar-modes=" webxr scene-viewer quick-look" alt="A 3D model of a model" exposure="1" ios-src="models/newtaipei_xinpu.usdz">
+  <!-- environment-image="assets/hdri/san_giuseppe_bridge_1k.hdr" -->
+	<button slot="ar-button" id="ar-button">
+    View in AR
+  </button>
+
+  <div class="progress-bar hide loadingUI" slot="progress-bar">
+    <div class="progressAmmount">1%</div>
+    <div class="progressTitle">LOADING MODEL</div>
+    <div class="progressStyle">
+      <div class="update-bar"></div>
+    </div>
+  </div>
+
+
+<!--   <button id="testButtom">
+    Test in AR
+  </button> -->
+
+</model-viewer>
+</body>
+<script>
+
+
+  const modelViewer = document.querySelector('#demo');
+  const tapDistance = 2;
+  let panning = false;
+  let panX, panY;
+  let startX, startY;
+  let lastX, lastY;
+  let metersPerPixel;
+
+  let isARMode = false
+
+  let openTime = Date.now();
+
+  let loadTime = 0
+
+  var enterTime = 0
+  var exitTime = 0
+  let experienceTime = 0
+
+
+  const arButton = document.querySelector("#ar-button");
+
+  const progressAmmount = document.querySelector(".progressAmmount");
+  const updateBar = document.querySelector(".update-bar");
+
+  const progressBar = document.querySelector(".progress-bar");
+  const uiContainer = document.querySelector(".loadingUI");
+  // const shopNowButon = document.querySelector(".shopNowButton");
+
+
+  arButton.classList.add("hidden")
+
+    let modelLoaded = false
+
+  modelViewer.addEventListener("progress",(e)=>{
+    // progressBar.style.display ="block"
+    const presentage =Math.floor( e.detail.totalProgress *100)
+    progressAmmount.innerHTML = presentage + "%";
+    updateBar.style.width = `${presentage}%`
+
+  })
+
+
+  modelViewer.addEventListener("load",()=>{
+    setTimeout(function(){
+      progressBar.style.display ="none"
+      if(!modelLoaded){
+        uiContainer.classList.add("hidden")
+        // shopNowButon.classList.toggle("hidden")
+        arButton.classList.remove("hidden")
+        modelLoaded = true
+      }
+    }, 1000);
+
+    const loadNowTIme = Date.now();
+
+    loadTime = (loadNowTIme - openTime)* 0.001
+
+    // window.dataLayer.push({event: 'completedLoadModel','loadingTime':loadTime })
+
+    window.dataLayer.push({event: 'experienceTime','arExperienceTime':experienceTime })
+
+  })
+
+
+
+
+
+
+arButton.addEventListener("click",function(){
+
+window.dataLayer.push({event: 'placeModel'})
+
+// window.dataLayer.push({event: 'experienceTime','arExperienceTime':experienceTime })
+
+uiContainer.classList.add("hidden")
+
+enterTime = Date.now();
+
+console.log(enterTime)
+
+// isARMode = true
+
+setTimeout(function(){ isARMode = true }, 200);
+
+})
+
+
+
+modelViewer.addEventListener("click",function(){
+
+
+if (isARMode == true) {
+
+exitTime = Date.now();
+
+console.log(exitTime)
+
+experienceTime = (exitTime - enterTime)* 0.001
+console.log(experienceTime)
+isARMode = false
+
+window.dataLayer.push({event: 'experienceTime','arExperienceTime':experienceTime })
+
+}
+
+
+})
+
+
+// modelViewer.addEventListener("click",()=>{
+
+//   console.log("Click model")
+// })
+
+
+</script>
+</html>

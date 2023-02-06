@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const server = http.createServer((req, res) => {
   fs.readFile('./squit_game/models/index.html', (err, data) => {
@@ -15,6 +15,9 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// server.listen(port, () => {
+//   console.log(`Server running at http://localhost:${port}`);
+// });
+
+server.listen(port, () => { console.log(`Server listening on port ${port}`); });
+module.exports = app

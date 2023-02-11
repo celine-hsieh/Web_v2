@@ -1,0 +1,2 @@
+Taiwan.glb filter=lfs diff=lfs merge=lfs -text
+Taiwan.usdz filter=lfs diff=lfs merge=lfs -text

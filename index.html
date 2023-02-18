@@ -137,7 +137,20 @@ End Google Tag Manager (noscript) Taiwan_v2.glb-->
   <a-entity camera></a-entity>
 </a-scene>
 
+<script>
+  const modelViewer = document.querySelector('model-viewer');
+  const marker = document.querySelector('a-marker');
 
+  marker.addEventListener('markerFound', () => {
+    modelViewer.setAttribute('position', marker.object3D.position);
+    modelViewer.setAttribute('rotation', marker.object3D.rotation);
+  });
+
+  marker.addEventListener('markerLost', () => {
+    modelViewer.setAttribute('position', '0 0 0');
+    modelViewer.setAttribute('rotation', '0 0 0');
+  });
+</script>
 
 
 
@@ -160,13 +173,13 @@ End Google Tag Manager (noscript) Taiwan_v2.glb-->
 <!--   <button id="testButtom">
     Test in AR
   </button> -->
+<!-- </model-viewer>-->
 
-</model-viewer>
 </body>
 <script>
 
 
-  const modelViewer = document.querySelector('#demo');
+  //const modelViewer = document.querySelector('#demo');
   const tapDistance = 2;
   let panning = false;
   let panX, panY;

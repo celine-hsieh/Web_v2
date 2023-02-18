@@ -118,21 +118,23 @@ model-viewer{
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGKDS53"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 End Google Tag Manager (noscript) Taiwan_v2.glb-->
+<model-viewer id="demo" src="Taiwan_v3.glb" ios-src="Taiwan_v3.usdz" ar-placement="on" ar-scale="auto" ar-modes="webxr scene-viewer quick-look">
+  <button slot="ar-button" id="ar-button">
+    View in AR
+  </button>
+
+  <div class="progress-bar hide loadingUI" slot="progress-bar">
+    <div class="progressAmmount">1%</div>
+    <div class="progressTitle">LOADING MODEL</div>
+    <div class="progressStyle">
+      <div class="update-bar"></div>
+    </div>
+  </div>
+</model-viewer>
+
 <a-scene embedded arjs>
   <a-marker preset="custom" type="pattern" url="parttern-CSLTaipeiTech.patt">
-    <model-viewer src="Taiwan_v3.glb" ios-src="Taiwan_v3.usdz" ar-placement="on" ar-scale="auto" ar-modes="webxr scene-viewer quick-look">
-      <button slot="ar-button" id="ar-button">
-        View in AR
-      </button>
-    
-      <div class="progress-bar hide loadingUI" slot="progress-bar">
-        <div class="progressAmmount">1%</div>
-        <div class="progressTitle">LOADING MODEL</div>
-        <div class="progressStyle">
-          <div class="update-bar"></div>
-        </div>
-      </div>
-    </model-viewer>
+    <model-viewer demo></model-viewer>
   </a-marker>
   <a-entity camera></a-entity>
 </a-scene>

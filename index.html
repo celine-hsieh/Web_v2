@@ -137,24 +137,6 @@ End Google Tag Manager (noscript) Taiwan_v2.glb-->
   <a-entity camera></a-entity>
 </a-scene>
 
-<script>
-  const modelViewer = document.querySelector('model-viewer');
-  const marker = document.querySelector('a-marker');
-
-  marker.addEventListener('markerFound', () => {
-    modelViewer.setAttribute('position', marker.object3D.position);
-    modelViewer.setAttribute('rotation', marker.object3D.rotation);
-  });
-
-  marker.addEventListener('markerLost', () => {
-    modelViewer.setAttribute('position', '0 0 0');
-    modelViewer.setAttribute('rotation', '0 0 0');
-  });
-</script>
-
-
-
-
 <!-- <model-viewer id="demo" poster="CSLTaipeiTech.jpg" src="Taiwan_v3.glb" camera-controls shadow-intensity="1" camera-orbit="-46.37deg 86.68deg 1m" camera-target="0m 0.2m 0m" min-camera-orbit="auto auto 0.5m" ar  ar-modes=" webxr scene-viewer quick-look" alt="A 3D model of a model" exposure="1" ios-src="Taiwan_v3.usdz">
   environment-image="assets/hdri/san_giuseppe_bridge_1k.hdr" -->
 <!--   	<button slot="ar-button" id="ar-button">
@@ -178,6 +160,19 @@ End Google Tag Manager (noscript) Taiwan_v2.glb-->
 </body>
 <script>
 
+
+  const modelViewer = document.querySelector('model-viewer');
+  const marker = document.querySelector('a-marker');
+
+  // marker.addEventListener('markerFound', () => {
+  //   modelViewer.setAttribute('position', marker.object3D.position);
+  //   modelViewer.setAttribute('rotation', marker.object3D.rotation);
+  // });
+
+  // marker.addEventListener('markerLost', () => {
+  //   modelViewer.setAttribute('position', '0 0 0');
+  //   modelViewer.setAttribute('rotation', '0 0 0');
+  // });
 
   //const modelViewer = document.querySelector('#demo');
   const tapDistance = 2;
@@ -248,6 +243,16 @@ End Google Tag Manager (noscript) Taiwan_v2.glb-->
 
 
 arButton.addEventListener("click",function(){
+
+  marker.addEventListener('markerFound', () => {
+    modelViewer.setAttribute('position', marker.object3D.position);
+    modelViewer.setAttribute('rotation', marker.object3D.rotation);
+  });
+
+  marker.addEventListener('markerLost', () => {
+    modelViewer.setAttribute('position', '0 0 0');
+    modelViewer.setAttribute('rotation', '0 0 0');
+  });
 
 window.dataLayer.push({event: 'placeModel'})
 
